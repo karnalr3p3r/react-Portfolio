@@ -1,8 +1,6 @@
-// node-modules
 import React, { Component } from "react";
 import axios from "axios";
 
-// import internal functions
 import PortfolioItem from "./portfolio-item";
 
 export default class PortfolioContainer extends Component {
@@ -12,11 +10,10 @@ export default class PortfolioContainer extends Component {
     this.state = {
       pageTitle: "Welcome to my portfolio",
       isLoading: false,
-      data: [ ]
+      data: []
     };
 
     this.handleFilter = this.handleFilter.bind(this);
-
   }
 
   handleFilter(filter) {
@@ -29,28 +26,21 @@ export default class PortfolioContainer extends Component {
 
   getPortfolioItems() {
     axios
-    .get('https://jacobdevereaux.devcamp.space/portfolio/portfolio_items')
-    .then(response => {
-    // handle success
-      console.log("response data", response);
-      this.setState({
-        data: response.data.portfolio_items
+      .get("https://jacobdevereaux.devcamp.space/portfolio/portfolio_items")
+      .then(response => {
+        console.log("response:", response);
+        this.setState({
+          data: response.data.portfolio_items
+        });
+      })
+      .catch(error => {
+        console.log(error);
       });
-  })
-    .catch(error => {
-    // handle error
-      console.log(error);
-  })
   }
 
   portfolioItems() {
     return this.state.data.map(item => {
-      return (
-        <PortfolioItem 
-        key={item.id} 
-        item={item} 
-        />
-      );
+      return <PortfolioItem key={item.id} item={item} />;
     });
   }
 
@@ -64,16 +54,14 @@ export default class PortfolioContainer extends Component {
     }
 
     return (
-      <div>
-        <h2>{this.state.pageTitle}</h2>
-
-        <button onClick={() => this.handleFilter("Marvel")}>
+      <div className="portfolio-items-wrapper">
+        <button className="btn" onClick={() => this.handleFilter("Marvel")}>
           Marvel
         </button>
-        <button onClick={() => this.handleFilter("Apex")}>
+        <button className="btn" onClick={() => this.handleFilter("Apex")}>
           Apex
         </button>
-        <button onClick={() => this.handleFilter("Travel")}>
+        <button className="btn" onClick={() => this.handleFilter("Travel")}>
           Travel
         </button>
 
